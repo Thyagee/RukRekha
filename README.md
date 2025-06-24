@@ -30,6 +30,8 @@
 | NFT | On-chain assets minted via Mesh SDK |
 | IoT | Simulated via JavaScript (can connect to ESP32 in future) |
 
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://github.com/Thyagee/RukRekha/blob/main/LICENSE)
+
 ---
 
 ## 📂 Folder Structure
