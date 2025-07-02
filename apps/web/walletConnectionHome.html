@@ -1,0 +1,160 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RukRekha - Wallet Connection UX Enhanced</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code&family=Montserrat&family=Roboto&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #2E7D32;
+  --secondary: #1B5E20;
+  --accent: #5D4037;
+  --background: #F1F8E9;
+  --card-bg: #FFFFFF;
+  --alert: #81D4FA;
+}
+body {
+  background-color: var(--background);
+  color: #212121;
+  font-family: 'Roboto', sans-serif;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Montserrat', sans-serif;
+  color: var(--secondary);
+}
+header {
+  background-color: var(--secondary);
+  padding: 20px;
+}
+header h1 {
+  color: white;
+  animation: float 3s ease-in-out infinite;
+}
+nav a {
+  color: white;
+  margin: 0 15px;
+  text-decoration: none;
+}
+nav a:hover {
+  color: var(--alert);
+}
+.card {
+  background-color: var(--card-bg);
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 30px;
+  box-shadow: 0 0 12px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+button:hover {
+  transform: scale(1.05);
+  transition: transform 0.2s ease;
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+footer {
+  background-color: var(--secondary);
+  color: white;
+  text-align: center;
+  padding: 15px;
+}
+</style>
+<script type="module">
+import { BrowserWallet } from 'https://unpkg.com/@meshsdk/core@1.2.0/dist/mesh.js';
+
+let wallet;
+
+async function connectWallet() {
+  try {
+    const wallets = await BrowserWallet.getInstalledWallets();
+    if (wallets.length === 0) {
+      alert('No wallet found! Please install Eternl, Lace, or another Cardano wallet.');
+      return;
+    }
+    wallet = await BrowserWallet.enable(wallets[0]);
+    const addresses = await wallet.getUsedAddresses();
+    const address = addresses.length ? addresses[0] : 'No Address Found';
+    document.getElementById('walletAddress').innerText = address;
+
+    const network = await wallet.getNetworkId();
+    const networkName = network === 1 ? "Mainnet" : (network === 0 ? "Testnet" : "Unknown");
+    document.getElementById('networkStatus').innerText = networkName;
+
+    document.getElementById('walletStatus').innerText = '🟢 Connected';
+  } catch (err) {
+    console.error('Wallet connection failed:', err);
+    document.getElementById('walletStatus').innerText = '🔴 Connection Failed';
+  }
+}
+
+function disconnectWallet() {
+  wallet = null;
+  document.getElementById('walletAddress').innerText = 'N/A';
+  document.getElementById('networkStatus').innerText = 'N/A';
+  document.getElementById('walletStatus').innerText = '🔴 Not Connected';
+}
+</script>
+</head>
+
+<body>
+<header class="d-flex justify-content-between align-items-center">
+  <h1>🌿 RukRekha</h1>
+  <nav>
+    <a href="#">Home</a>
+    <a href="#">About</a>
+    <a href="#">Adopt a Tree</a>
+    <a href="#">Log Tree</a>
+    <a href="#">Verify</a>
+    <a href="#">Dashboard</a>
+    <a href="#">Sign Up / Login</a>
+  </nav>
+</header>
+
+<main class="container mt-5">
+<section class="text-center py-5 text-white"
+ style="background: linear-gradient(to right, #2E7D32, #66BB6A); border-radius: 10px;"
+ data-aos="fade-down">
+  <h1 class="fw-bold" data-aos="zoom-in" data-aos-delay="200">
+    Connect Your Wallet
+  </h1>
+  <p class="lead" data-aos="fade-up" data-aos-delay="400">
+    Connect to Eternl, Lace, or any Cardano wallet to start minting and tracking NFTs.
+  </p>
+</section>
+
+<div class="card" data-aos="fade-up">
+  <h4 data-aos="zoom-in">🔗 Wallet Connection</h4>
+  <button class="btn btn-outline-success" onclick="connectWallet()">Connect Wallet</button>
+</br>
+  <button class="btn btn-outline-danger" onclick="disconnectWallet()">Disconnect</button>
+  </br>
+  <p>Wallet Address: <span id="walletAddress">N/A</span></p>
+  <p>Network: <span id="networkStatus">N/A</span></p>
+  <p>Status: <span id="walletStatus">🔴 Not Connected</span></p>
+</div>
+</main>
+
+<footer>
+  <p>Quick Links: Home | Adopt | Log Tree | Verify | Dashboard</p>
+  <p>Contact: info@rukrekha.org | Twitter | Discord</p>
+  <p>Terms of Service | Privacy Policy</p>
+  <p>© 2025 RukRekha. All rights reserved.</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script>
+  AOS.init();
+</script>
+</body>
+</html>
