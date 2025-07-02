@@ -1,0 +1,226 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RukRekha - NFT Mint Portal with QR & UX Enhancements</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code&family=Montserrat&family=Roboto&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<style>
+:root {
+  --primary: #2E7D32;
+  --secondary: #1B5E20;
+  --background: #F1F8E9;
+  --card-bg: #FFFFFF;
+  --alert: #81D4FA;
+}
+body {
+  background-color: var(--background);
+  color: #212121;
+  font-family: 'Roboto', sans-serif;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Montserrat', sans-serif;
+  color: var(--secondary);
+}
+header {
+  background-color: var(--secondary);
+  padding: 20px;
+}
+header h1 {
+  color: white;
+}
+nav a {
+  color: white;
+  margin: 0 15px;
+  text-decoration: none;
+}
+nav a:hover {
+  color: var(--alert);
+}
+.btn-success {
+  background-color: var(--primary);
+}
+.btn-success:hover {
+  background-color: var(--secondary);
+  transform: scale(1.05);
+  transition: 0.3s ease;
+}
+.card {
+  background-color: var(--card-bg);
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 30px;
+  box-shadow: 0 0 12px rgba(0,0,0,0.05);
+  transition: transform 0.3s;
+}
+.card:hover {
+  transform: translateY(-5px);
+}
+.float-icon {
+  animation: float 3s ease-in-out infinite;
+}
+#qrCode:hover {
+  box-shadow: 0 0 15px #66BB6A, 0 0 25px #66BB6A;
+  transition: 0.3s ease;
+  cursor: pointer;
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+footer {
+  background-color: var(--secondary);
+  color: white;
+  text-align: center;
+  padding: 15px;
+}
+</style>
+</head>
+
+<body>
+<header class="d-flex justify-content-between align-items-center">
+  <h1>🌿 RukRekha</h1>
+  <nav>
+    <a href="#">Home</a>
+    <a href="#">About</a>
+    <a href="#">Adopt a Tree</a>
+    <a href="#">Log Tree</a>
+    <a href="#">Verify</a>
+    <a href="#">Dashboard</a>
+    <a href="#">Sign Up / Login</a>
+  </nav>
+</header>
+
+<main class="container mt-5">
+<section class="text-center py-5 text-white"
+ style="background: linear-gradient(to right, #2E7D32, #66BB6A); border-radius: 10px;"
+ data-aos="fade-down">
+  <h1 class="fw-bold" data-aos="zoom-in" data-aos-delay="200">
+    Adopt Trees. Own NFTs. Support Earth.
+  </h1>
+  <p class="lead" data-aos="fade-up" data-aos-delay="400">
+    Select the number of trees and mint your impact on the Cardano blockchain.
+  </p>
+</section>
+
+<div class="card" data-aos="fade-up">
+  <h3>🌿 Mint Your Tree NFT</h3>
+  <form>
+    <div class="mb-3" data-aos="fade-right">
+      <label class="form-label">Select Number of Trees</label>
+      <select class="form-select" id="treeQuantity" onchange="calculateCost()">
+        <option value="1">1 Tree</option>
+        <option value="5">5 Trees</option>
+        <option value="10">10 Trees</option>
+        <option value="20">20 Trees</option>
+        <option value="50">50 Trees</option>
+      </select>
+    </div>
+    <div class="mb-3" data-aos="fade-right" data-aos-delay="200">
+      <label class="form-label">Select Tree Type (Optional)</label>
+      <select class="form-select">
+        <option value="Mango">Mango</option>
+        <option value="Neem">Neem</option>
+        <option value="Mahogany">Mahogany</option>
+        <option value="Jackfruit">Jackfruit</option>
+      </select>
+    </div>
+    <div class="mb-3" data-aos="fade-right" data-aos-delay="400">
+      <label class="form-label">Project Location</label>
+      <input type="text" class="form-control" value="Galle, Sri Lanka" disabled>
+    </div>
+    <div class="alert alert-info" data-aos="zoom-in">
+      💰 Cost: <span id="costDisplay">10 ADA</span> <br>
+      🌍 Project: Coastal Reforestation, Galle, Sri Lanka <br>
+      🌲 Tree Types Available: Mango, Neem, Mahogany, Jackfruit <br>
+      ✅ Your NFT will include GPS coordinates and proof of planting.
+    </div>
+    <div class="mb-3" data-aos="fade-up">
+      <button type="button" class="btn btn-outline-success" onclick="connectWallet()">Connect Wallet</button>
+      <span id="walletStatus" class="ms-2">🔴 Not Connected</span>
+    </div>
+    <button type="button" class="btn btn-success" onclick="mintNFT()">🚀 Mint NFT</button>
+  </form>
+</div>
+
+<div class="text-center my-3" id="loader" style="display:none;">
+  <div class="spinner-border text-success" role="status">
+    <span class="visually-hidden">Minting...</span>
+  </div>
+  <p>Minting NFT... Please wait</p>
+</div>
+
+<div class="card" data-aos="zoom-in">
+  <h4>🎉 Confirmation</h4>
+  <p>Transaction Hash: <a href="#" id="txHash">N/A</a></p>
+  <p>NFT ID: <span id="nftId">N/A</span></p>
+  <p>Metadata: <span id="nftMeta">N/A</span></p>
+  <div class="text-center">
+    <h5>📱 QR Code to Verify On-Chain</h5>
+    <canvas id="qrCode" class="float-icon"></canvas><br>
+    <button class="btn btn-outline-success" onclick="downloadQR()">Download QR</button>
+  </div>
+</div>
+</main>
+
+<footer>
+  <p>Quick Links: Home | Adopt | Log Tree | Verify | Dashboard</p>
+  <p>Contact: info@rukrekha.org | Twitter | Discord</p>
+  <p>Terms of Service | Privacy Policy</p>
+  <p>© 2025 RukRekha. All rights reserved.</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script>
+  AOS.init();
+function calculateCost() {
+  const qty = document.getElementById('treeQuantity').value;
+  const total = qty * 10;
+  document.getElementById('costDisplay').innerText = total + " ADA";
+}
+function connectWallet() {
+  document.getElementById('walletStatus').innerText = '🟢 Connected';
+}
+function launchConfetti() {
+  confetti({
+    particleCount: 200,
+    spread: 70,
+    origin: { y: 0.6 }
+  });
+}
+function mintNFT() {
+  document.getElementById('loader').style.display = 'block';
+  setTimeout(() => {
+    const txLink = 'https://cardanoscan.io/transaction/abc123';
+    document.getElementById('txHash').innerText = txLink;
+    document.getElementById('nftId').innerText = '#456';
+    document.getElementById('nftMeta').innerText = 'Tree Type: Mango, Quantity: 5, GPS: Colombo';
+
+    const qr = new QRious({
+      element: document.getElementById('qrCode'),
+      value: txLink,
+      size: 200
+    });
+
+    document.getElementById('loader').style.display = 'none';
+    launchConfetti();
+    alert('NFT Minted! QR Code Generated.');
+  }, 2000);
+}
+function downloadQR() {
+  const canvas = document.getElementById('qrCode');
+  const link = document.createElement('a');
+  link.download = 'Tree_QR.png';
+  link.href = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+  link.click();
+}
+</script>
+</body>
+</html>

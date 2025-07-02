@@ -1,0 +1,195 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RukRekha - Donor Dashboard with Dark Mode Map</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code&family=Montserrat&family=Roboto&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #2E7D32;
+  --secondary: #1B5E20;
+  --accent: #5D4037;
+  --background: #F1F8E9;
+  --card-bg: #FFFFFF;
+  --alert: #81D4FA;
+  --text: #212121;
+}
+body {
+  background-color: var(--background);
+  color: var(--text);
+  font-family: 'Roboto', sans-serif;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Montserrat', sans-serif;
+  color: var(--secondary);
+}
+header {
+  background-color: var(--secondary);
+  padding: 20px;
+}
+header h1 {
+  color: white;
+}
+nav a {
+  color: white;
+  margin: 0 15px;
+  text-decoration: none;
+}
+nav a:hover {
+  color: var(--alert);
+}
+.card {
+  background-color: var(--card-bg);
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 30px;
+  box-shadow: 0 0 12px rgba(0,0,0,0.05);
+}
+footer {
+  background-color: var(--secondary);
+  color: white;
+  text-align: center;
+  padding: 15px;
+}
+#treeMap { height: 500px; border-radius: 10px; }
+</style>
+</head>
+
+<body>
+<header class="d-flex justify-content-between align-items-center">
+  <h1>🌿 RukRekha</h1>
+  <nav>
+    <a href="#">Home</a>
+    <a href="#">About</a>
+    <a href="#">Adopt a Tree</a>
+    <a href="#">Log Tree</a>
+    <a href="#">Verify</a>
+    <a href="#">Dashboard</a>
+    <a href="#">Sign Up / Login</a>
+  </nav>
+</header>
+
+<main class="container mt-5">
+<section class="text-center py-5 text-white" style="background: linear-gradient(to right, #2E7D32, #66BB6A); border-radius: 10px;" data-aos="fade-down">
+  <h1 class="fw-bold">Donor Dashboard</h1>
+  <p class="lead">View your NFTs, track tree growth, upload photos, verify blockchain, and explore tree locations with dark mode map toggle.</p>
+</section>
+
+<div class="card" data-aos="fade-up">
+  <h4>🗺️ Tree Location Map with Clustering & Dark Mode</h4>
+  <div class="form-check form-switch mb-3">
+    <input class="form-check-input" type="checkbox" id="mapThemeToggle" onclick="toggleMapTheme()">
+    <label class="form-check-label" for="mapThemeToggle">🌓 Dark Mode</label>
+  </div>
+  <div id="treeMap"></div>
+</div>
+
+<div class="card" data-aos="fade-up">
+  <h4>🔗 Wallet Connection</h4>
+  <button class="btn btn-outline-success">Connect Wallet</button>
+</br>
+  <button class="btn btn-outline-danger">Disconnect</button>
+  </br>
+  <p>Wallet Address: <span>addr1q....</span></p>
+  <p>Network: <span>Mainnet</span></p>
+  <p>Status: <span>🟢 Connected</span></p>
+</div>
+
+<div class="card" data-aos="fade-up">
+  <h4>🌳 Your Tree NFTs</h4>
+  <div class="row">
+    <div class="col-md-4">
+      <div class="card">
+        <img src="images/NFTimages.jpg" class="card-img-top" alt="Tree Image">
+        <div class="card-body">
+          <h5 class="card-title">TreeNFT_#0005</h5>
+          <p>Tree Type: Mango</p>
+          <p>Location: 6.9271, 79.8612</p>
+          <p>Date Planted: 2024-10-01</p>
+          <a href="#" class="btn btn-outline-success">View TX</a>
+          <a href="#" class="btn btn-outline-info">View Details</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card" data-aos="zoom-in">
+  <h4>🎨 NFT Details</h4>
+  <p>Name: TreeNFT_#0005</p>
+  <p>Tree Type: Mango</p>
+  <p>GPS Location: 6.9271, 79.8612</p>
+  <p>Date Planted: 2024-10-01</p>
+  <p>Transaction: <a href="#">View on Cardanoscan</a></p>
+  <div class="text-center">
+    <h5>🌿 Growth History</h5>
+    <img src="images/tree1.jpg" width="150" alt="Growth stage">
+    <img src="images/tree2.jpg" width="150" alt="Growth stage">
+    <img src="images/tree3.jpg" width="150" alt="Growth stage">
+  </div>
+  <div class="text-center mt-3">
+    <h5>📱 QR Code to Verify</h5>
+    <canvas id="qrCode"></canvas><br>
+    <button class="btn btn-outline-success">Download QR</button>
+  </div>
+</div>
+</main>
+
+<footer>
+  <p>Quick Links: Home | Adopt | Log Tree | Verify | Dashboard</p>
+  <p>Contact: info@rukrekha.org | Twitter | Discord</p>
+  <p>Terms of Service | Privacy Policy</p>
+  <p>© 2025 RukRekha. All rights reserved.</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+<script>
+  AOS.init();
+
+  const lightTile = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors'
+  });
+
+  const darkTile = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; OpenStreetMap, &copy; CartoDB'
+  });
+
+  const map = L.map('treeMap', {layers: [lightTile]}).setView([7.8731, 80.7718], 6);
+  const markers = L.markerClusterGroup();
+
+  const trees = [
+    {name: 'TreeNFT_#0001', type: 'Mango', gps: [6.9271, 79.8612], date: '2024-10-01', tx: 'https://cardanoscan.io/tx/abc123'},
+    {name: 'TreeNFT_#0002', type: 'Neem', gps: [7.2906, 80.6337], date: '2024-10-02', tx: 'https://cardanoscan.io/tx/def456'},
+    {name: 'TreeNFT_#0003', type: 'Jackfruit', gps: [6.9271, 79.8612], date: '2024-10-03', tx: 'https://cardanoscan.io/tx/ghi789'}
+  ];
+
+  trees.forEach(tree => {
+    const marker = L.marker(tree.gps)
+      .bindPopup(`<b>${tree.name}</b><br>Type: ${tree.type}<br>Date: ${tree.date}<br><a href="${tree.tx}" target="_blank">TX Link</a>`);
+    markers.addLayer(marker);
+  });
+
+  map.addLayer(markers);
+
+  function toggleMapTheme() {
+    if (document.getElementById('mapThemeToggle').checked) {
+      map.removeLayer(lightTile);
+      map.addLayer(darkTile);
+    } else {
+      map.removeLayer(darkTile);
+      map.addLayer(lightTile);
+    }
+  }
+</script>
+</body>
+</html>
