@@ -82,14 +82,58 @@ footer {
   <p class="lead">View your NFTs, track tree growth, upload photos, verify blockchain, and explore tree locations with dark mode map toggle.</p>
 </section>
 
+
+
+<!-- map fillter -->
 <div class="card" data-aos="fade-up">
+  <h4>🗺️ Tree Location Map with Filters & Dark Mode</h4>
+  <div class="form-check form-switch mb-3">
+    <input class="form-check-input" type="checkbox" id="mapThemeToggle" onclick="toggleMapTheme()">
+    <label class="form-check-label" for="mapThemeToggle">🌓 Dark Mode</label>
+  </div>
+  <div class="row mb-3">
+    <div class="col-md-4">
+      <label>Tree Type</label>
+      <select id="treeTypeFilter" class="form-select">
+        <option value="">All</option>
+        <option value="Mango">Mango</option>
+        <option value="Neem">Neem</option>
+        <option value="Jackfruit">Jackfruit</option>
+      </select>
+    </div>
+    <div class="col-md-4">
+      <label>Region</label>
+      <select id="regionFilter" class="form-select">
+        <option value="">All</option>
+        <option value="Colombo">Colombo</option>
+        <option value="Kandy">Kandy</option>
+        <option value="Galle">Galle</option>
+      </select>
+    </div>
+    <div class="col-md-4">
+      <label>Date Planted (After)</label>
+      <input type="date" id="dateFilter" class="form-control"/>
+    </div>
+  </div>
+
+  <button class="btn btn-success mb-3" onclick="applyFilter()">Apply Filter</button>
+<button class="btn btn-secondary mb-3 ms-2" onclick="resetFilter()">Reset Filter</button>
+
+  <!-- <button class="btn btn-success mb-3" onclick="applyFilter()">Apply Filter</button>
+  <button class="btn btn-secondary w-100" onclick="resetFilters()">Reset</button> -->
+  <div id="treeMap"></div>
+</div>
+
+
+
+<!-- <div class="card" data-aos="fade-up">
   <h4>🗺️ Tree Location Map with Clustering & Dark Mode</h4>
   <div class="form-check form-switch mb-3">
     <input class="form-check-input" type="checkbox" id="mapThemeToggle" onclick="toggleMapTheme()">
     <label class="form-check-label" for="mapThemeToggle">🌓 Dark Mode</label>
   </div>
   <div id="treeMap"></div>
-</div>
+</div> -->
 
 <div class="card" data-aos="fade-up">
   <h4>🔗 Wallet Connection</h4>
@@ -140,6 +184,39 @@ footer {
     <button class="btn btn-outline-success">Download QR</button>
   </div>
 </div>
+
+<!-- <div class="card">
+      <h4>🎁 Gift/Share NFT</h4>
+      <p>Enter the recipient's Cardano wallet address to transfer your Tree NFT.</p>
+      <label for="recipientWallet" class="form-label">Recipient Wallet Address</label>
+      <input type="text" id="recipientWallet" class="form-control" placeholder="addr1..."/>
+      <button class="btn btn-success mt-3" onclick="giftNFT()">Gift NFT</button>
+      <p class="mt-3 fw-bold text-success" id="giftStatus"></p>
+    </div> -->
+
+
+    <div class="card" data-aos="fade-up">
+  <h4>🎁 Gift / Share NFT</h4>
+  <p>You can transfer your NFT to another wallet as a gift. Please enter the recipient wallet address and select the NFT to transfer.</p>
+
+  <div class="mb-3">
+    <label for="nftSelect" class="form-label">Select NFT</label>
+    <select id="nftSelect" class="form-select">
+      <option value="">Select NFT</option>
+    </select>
+  </div>
+
+  <div class="mb-3">
+    <label for="recipientWallet" class="form-label">Recipient Wallet Address</label>
+    <input type="text" id="recipientWallet" class="form-control" placeholder="addr1q...">
+  </div>
+
+  <button class="btn btn-primary" onclick="giftNFT()">Send NFT</button>
+
+  <div class="mt-3" id="giftStatus"></div>
+</div>
+
+
 </main>
 
 <footer>
@@ -167,11 +244,18 @@ footer {
   const map = L.map('treeMap', {layers: [lightTile]}).setView([7.8731, 80.7718], 6);
   const markers = L.markerClusterGroup();
 
-  const trees = [
-    {name: 'TreeNFT_#0001', type: 'Mango', gps: [6.9271, 79.8612], date: '2024-10-01', tx: 'https://cardanoscan.io/tx/abc123'},
-    {name: 'TreeNFT_#0002', type: 'Neem', gps: [7.2906, 80.6337], date: '2024-10-02', tx: 'https://cardanoscan.io/tx/def456'},
-    {name: 'TreeNFT_#0003', type: 'Jackfruit', gps: [6.9271, 79.8612], date: '2024-10-03', tx: 'https://cardanoscan.io/tx/ghi789'}
+const trees = [
+    {name: 'TreeNFT_#0001', type: 'Mango', gps: [6.9271, 79.8612], date: '2024-10-01', tx: 'https://cardanoscan.io/tx/abc123', region: 'Colombo'},
+    {name: 'TreeNFT_#0002', type: 'Neem', gps: [7.2906, 80.6337], date: '2024-10-02', tx: 'https://cardanoscan.io/tx/def456', region: 'Kandy'},
+    {name: 'TreeNFT_#0003', type: 'Jackfruit', gps: [6.0535, 80.2210], date: '2024-10-03', tx: 'https://cardanoscan.io/tx/ghi789', region: 'Galle'}
   ];
+
+
+  // const trees = [
+  //   {name: 'TreeNFT_#0001', type: 'Mango', gps: [6.9271, 79.8612], date: '2024-10-01', tx: 'https://cardanoscan.io/tx/abc123'},
+  //   {name: 'TreeNFT_#0002', type: 'Neem', gps: [7.2906, 80.6337], date: '2024-10-02', tx: 'https://cardanoscan.io/tx/def456'},
+  //   {name: 'TreeNFT_#0003', type: 'Jackfruit', gps: [6.9271, 79.8612], date: '2024-10-03', tx: 'https://cardanoscan.io/tx/ghi789'}
+  // ];
 
   trees.forEach(tree => {
     const marker = L.marker(tree.gps)
@@ -190,6 +274,94 @@ footer {
       map.addLayer(lightTile);
     }
   }
+
+  function applyFilter() {
+    const type = document.getElementById('treeTypeFilter').value;
+    const region = document.getElementById('regionFilter').value;
+    const date = document.getElementById('dateFilter').value;
+
+    markers.clearLayers();
+
+    const filtered = trees.filter(tree => {
+      const typeMatch = !type || tree.type === type;
+      const regionMatch = !region || tree.region === region;
+      const dateMatch = !date || new Date(tree.date) >= new Date(date);
+      return typeMatch && regionMatch && dateMatch;
+    });
+
+    filtered.forEach(tree => {
+      const marker = L.marker(tree.gps)
+        .bindPopup(`<b>${tree.name}</b><br>Type: ${tree.type}<br>Date: ${tree.date}<br><a href="${tree.tx}" target="_blank">TX Link</a>`);
+      markers.addLayer(marker);
+    });
+  }
+
+  function resetFilter() {
+    document.getElementById('treeTypeFilter').value = '';
+    document.getElementById('regionFilter').value = '';
+    document.getElementById('dateFilter').value = '';
+
+    markers.clearLayers();
+
+    trees.forEach(tree => {
+        const marker = L.marker(tree.gps)
+            .bindPopup(`<b>${tree.name}</b><br>Type: ${tree.type}<br>Date: ${tree.date}<br><a href="${tree.tx}" target="_blank">TX Link</a>`);
+        markers.addLayer(marker);
+    });
+}
+
+function populateNFTDropdown() {
+    const select = document.getElementById('nftSelect');
+    select.innerHTML = '<option value="">Select NFT</option>'; // reset
+
+    trees.forEach(tree => {
+        const option = document.createElement('option');
+        option.value = tree.name;
+        option.textContent = tree.name;
+        select.appendChild(option);
+    });
+}
+
+populateNFTDropdown();
+
+
+function giftNFT() {
+    const nftId = document.getElementById('nftSelect').value;
+    const recipient = document.getElementById('recipientWallet').value.trim();
+
+    const statusDiv = document.getElementById('giftStatus');
+    statusDiv.innerHTML = '';
+
+    if (!nftId || !recipient) {
+        statusDiv.innerHTML = '<div class="alert alert-danger">Please select an NFT and enter a recipient wallet address.</div>';
+        return;
+    }
+
+    // Simulate NFT transfer
+    statusDiv.innerHTML = '<div class="alert alert-info">⏳ Sending NFT...</div>';
+
+    setTimeout(() => {
+        // Here you’d call your blockchain backend or wallet SDK for the real transfer
+        statusDiv.innerHTML = `<div class="alert alert-success">✅ ${nftId} successfully sent to ${recipient}</div>`;
+    }, 2000);
+}
+
+
+
+// function resetFilters() {
+//     document.getElementById('treeTypeFilter').value = '';
+//     document.getElementById('regionFilter').value = '';
+//     document.getElementById('dateFilter').value = '';
+//     addMarkers(trees);
+//   }
+
+// function resetFilter() {
+//   document.getElementById('treeTypeFilter').value = '';
+//   document.getElementById('regionFilter').value = '';
+//   document.getElementById('dateFilter').value = '';
+//   renderMarkers(trees);
+// }
+
 </script>
 </body>
 </html>
