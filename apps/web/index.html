@@ -84,9 +84,26 @@
             transition: 0.3s;
         }
 
+        button {
+            background-color: #ffffff;
+            color: #2E7D32;
+            border: none;
+            padding: 0.5rem 1.0rem;
+            margin: 0.3rem;
+            cursor: pointer;
+            border-radius: 30px;
+            font-family: 'Montserrat', sans-serif;
+            transition: 0.3s;
+        }
+
         .hero button:hover {
             background-color: #81D4FA;
             color: #1B5E20;
+        }
+
+        button:hover {
+            background-color: #43c049;
+            color: #ffffff;
         }
 
         .section {
@@ -166,7 +183,7 @@
 
     <header>
         <div class="logo">
-            <a href="#"><strong>🌳 RukRekha</strong></a>
+            <a href="#"><strong>🌿 RukRekha</strong></a>
         </div>
         <div class="hamburger" onclick="toggleMenu()">☰</div>
         <nav id="nav-links">
@@ -183,9 +200,10 @@
             <a href="plantdonation.html">Log a Tree</a>
             <a href="#">Track / Verify</a>
             <a href="#">Dashboard</a>
-            <button onclick="logoutUser()">Logout</button>
+            
             <a href="signUp.html">Sign Up</a>
             <a href="login.html">Log In</a>
+            <button onclick="logoutUser()">Logout</button>
         </nav>
     </header>
 
