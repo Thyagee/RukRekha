@@ -185,7 +185,8 @@ button.btn:hover {
     <a href="plantingSubmission.html">Log Tree</a>
     <a href="#">Verify</a>
     <a href="donorDashboard.html">Dashboard</a>
-    <a href="login.html">Sign Up / Login</a>
+    <a href="login.html">Login</a>
+    <a href="signUp.html">Sign Up</a>
     <div class="form-check form-switch ms-3">
       <input class="form-check-input" type="checkbox" id="darkModeToggle">
       <label class="form-check-label text-white" for="darkModeToggle">🌙</label>
@@ -227,7 +228,7 @@ button.btn:hover {
                 <label for="donateQuantity" class="form-label">Number of Plants</label>
                 <input type="number" class="form-control" id="donateQuantity" min="1" required>
             </div>
-            <button type="submit" class="btn btn-primary w-100">Confirm & Connect Wallet</button>
+            <button onclick="window.location.href='plantdonation.html'" type="submit" class="btn btn-primary w-100">Confirm & Connect Wallet</button>
         </form>
     </div>
 </div>
@@ -448,7 +449,7 @@ document.getElementById("claimForm").addEventListener("submit", e => {
         return;
     }
 
-    alert(`🌿 ${name} is claiming ${qty} plants from ${project.title}. Wallet connection & blockchain update will proceed.`);
+    // alert(`🌿 ${name} is claiming ${qty} plants from ${project.title}. Wallet connection & blockchain update will proceed.`);
 
     // Update reserved count
     project.reserved_for_planting -= qty;
