@@ -303,8 +303,8 @@ const projectsData = [
         plant_type: "Mangrove",
         target_plants: 500,
         donated_plants: 275,
-        ready_plants: 150,
-        reserved_for_planting: 100,
+        ready_plants: 200,
+        reserved_for_planting: 180,
         value_per_plant: 100,
         qr_link: "#"
     },
@@ -432,6 +432,51 @@ document.getElementById("claimForm").addEventListener("submit", e => {
     const qty = document.getElementById("claimQuantity").value;
     alert(`🌿 ${name} is claiming ${qty} plants from ${projectsData[currentProjectIndex].title}.`);
 });
+
+
+//claim update
+document.getElementById("claimForm").addEventListener("submit", e => {
+    e.preventDefault();
+
+    const name = document.getElementById("planterName").value;
+    const qty = parseInt(document.getElementById("claimQuantity").value);
+
+    const project = projectsData[currentProjectIndex];
+
+    if (qty > project.reserved_for_planting) {
+        alert(`❌ You cannot claim more than ${project.reserved_for_planting} plants.`);
+        return;
+    }
+
+    alert(`🌿 ${name} is claiming ${qty} plants from ${project.title}. Wallet connection & blockchain update will proceed.`);
+
+    // Update reserved count
+    project.reserved_for_planting -= qty;
+
+    // Update Reserved text inline
+    const card = document.querySelectorAll(".card")[currentProjectIndex];
+    const reservedText = Array.from(card.querySelectorAll("p"))
+        .find(p => p.textContent.trim().startsWith("Reserved:"));
+    reservedText.childNodes[1].textContent = ` ${project.reserved_for_planting}`;
+
+    // Update reserved progress bar
+    const reservedPct = Math.round((project.reserved_for_planting / project.target_plants) * 100);
+    const reservedBar = card.querySelector(".progress-bar.reserved");
+    reservedBar.style.width = `${reservedPct}%`;
+    reservedBar.textContent = `${reservedPct}%`;
+
+    // Close modal
+    bootstrap.Modal.getInstance(document.getElementById('claimModal')).hide();
+
+    // Optional animation
+    advancedLeafFall(2500);
+});
+
+
+//claim update
+
+
+
 
 
 // function donationConfetti() {
