@@ -1,31 +1,38 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>RukRekha - Login</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/@meshsdk/core/browser.min.js"></script> -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
   <style>
     body {
       background-color: #F1F8E9;
       font-family: 'Roboto', sans-serif;
     }
+
     .side-img {
       background: url('https://images.unsplash.com/photo-1508780709619-79562169bc64?auto=format&fit=crop&w=900&q=80') center center no-repeat;
       background-size: cover;
       border-radius: 12px 0 0 12px;
       min-height: 500px;
     }
+
     @media (max-width: 768px) {
       .side-img {
         display: none;
       }
     }
+
     .card {
       border-radius: 12px;
     }
+
     .card-header {
       background-color: #1B5E20;
       color: white;
@@ -33,48 +40,146 @@
       border-top-left-radius: 12px;
       border-top-right-radius: 12px;
     }
+
     .btn-success {
       background-color: #2E7D32;
     }
   </style>
 </head>
+
 <body>
 
-<div class="container py-5">
-  <div class="row justify-content-center">
-    <div class="col-12 col-md-8">
-      <div class="card shadow-lg d-flex flex-column flex-md-row">
-        <div class="side-img col-md-6 d-none d-md-block"></div>
-        <div class="col-md-6 p-4">
-          <div class="card-header mb-3">
-            <h3>RukRekha Login</h3>
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-8">
+        <div class="card shadow-lg d-flex flex-column flex-md-row">
+          <div class="side-img col-md-6 d-none d-md-block"></div>
+          <div class="col-md-6 p-4">
+            <div class="card-header mb-3">
+              <h3>RukRekha Login</h3>
+            </div>
+            <form>
+              <div class="mb-3">
+                <label>Email</label>
+                <input type="email" id="email" class="form-control" placeholder="Enter email" required>
+              </div>
+              <div class="mb-3">
+                <label>Password</label>
+                <input type="password" id="password" class="form-control" placeholder="Enter password" required>
+              </div>
+              <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" id="rememberMe">
+                <label class="form-check-label" for="rememberMe">Remember Me</label>
+              </div>
+              <div class="mb-3">
+                <a href="#">Forgot Password?</a>
+              </div>
+              <button type="submit" class="btn btn-success w-100" onclick="loginUser(event)">Login</button>
+              <div class="mt-3 text-center">
+                <small>Don't have an account? <a href="signUp.html">Sign Up</a></small>
+              </div>
+              <div>
+                <button type="button" class="btn btn-primary w-100" onclick="connectWallet()">Connect Eternl
+                  Wallet</button>
+              </div>
+            </form>
           </div>
-          <form>
-            <div class="mb-3">
-              <label>Email</label>
-              <input type="email" class="form-control" placeholder="Enter email" required>
-            </div>
-            <div class="mb-3">
-              <label>Password</label>
-              <input type="password" class="form-control" placeholder="Enter password" required>
-            </div>
-            <div class="form-check mb-3">
-              <input class="form-check-input" type="checkbox" id="rememberMe">
-              <label class="form-check-label" for="rememberMe">Remember Me</label>
-            </div>
-            <div class="mb-3">
-              <a href="#">Forgot Password?</a>
-            </div>
-            <button type="submit" class="btn btn-success w-100">Login</button>
-            <div class="mt-3 text-center">
-              <small>Don't have an account? <a href="signUp.html">Sign Up</a></small>
-            </div>
-          </form>
         </div>
       </div>
     </div>
   </div>
-</div>
+  <script>
+    async function loginUser(event) {
+      event.preventDefault();
+
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      try {
+        const res = await fetch('http://localhost:5000/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+          // ✅ Save token in cookie
+          document.cookie = `token=${data.token}; path=/;`;
+          localStorage.setItem('loginType', 'manual');
+          localStorage.setItem('userName', data.user.name);
+          localStorage.removeItem('walletAddress'); // in case previously logged in via wallet
+
+          alert('✅ Login successful!');
+          window.location.href = 'index.html'; // Redirect to homepage
+        } else {
+          alert(`❌ ${data.error}`);
+        }
+      } catch (error) {
+        console.error('❌ Error:', error);
+        alert('❌ Server error or connection issue.');
+      }
+    }
+    // Attach manual login
+    document.querySelector('form').addEventListener('submit', loginUser);
+
+    // Eternl wallet login
+    async function connectWallet() {
+      try {
+        if (!window.cardano || !window.cardano.eternl) {
+          alert("❌ Eternl wallet extension is not installed.");
+          return;
+        }
+        const walletApi = await window.cardano.eternl.enable();
+        const walletAddresses = await walletApi.getUsedAddresses();
+
+        if (!walletAddresses || walletAddresses.length === 0) {
+          alert('❌ No addresses found in Eternl Wallet.');
+          return;
+        }
+
+        const userWalletAddress = walletAddresses[0];
+        const res = await fetch('http://localhost:5000/api/login-wallet', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ wallet: userWalletAddress })
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+          Toastify({
+            text: "✅ Wallet connected & Login successful!",
+            backgroundColor: "#43a047",
+            duration: 4000,
+            gravity: "top",
+            position: "right",
+            stopOnFocus: true,
+            close: true
+          }).showToast();
+          localStorage.setItem('loginType', 'wallet');
+          localStorage.setItem('walletAddress', userWalletAddress);
+          localStorage.removeItem('userName');
+          document.cookie = `token=${data.token}; path=/; max-age=86400`;
+          //alert("✅ Wallet connected & Login successful!");
+          setTimeout(() => {
+            window.location.href = 'index.html';
+          }, 1500);
+        } else {
+          alert("❌ Login failed: " + data.error);
+        }
+      } catch (error) {
+        if (error.message && error.message.toLowerCase().includes('account changed')) {
+          alert("❌ Wallet connection interrupted. Please re-open Eternl and try again. (Do not switch accounts during login)");
+        } else {
+          alert("❌ Wallet connection error: " + error.message);
+        }
+      }
+    }
+
+  </script>
 
 </body>
+
 </html>

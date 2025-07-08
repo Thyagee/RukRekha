@@ -1,0 +1,15 @@
+{
+  "721": {
+    "policyid1234567890abcdef": {
+      "TreeNFT_TREE12345": {
+        "name": "Tree #TREE12345",
+        "image": "https://firebasestorage.googleapis.com/yourimage.jpg",
+        "description": "Neem tree planted in Colombo",
+        "planting_date": "2025-06-25",
+        "gps": "6.9271,79.8612",
+        "donor": "John Doe",
+        "qr_code_link": "https://rukrekha.com/tree/TREE12345"
+      }
+    }
+  }
+}

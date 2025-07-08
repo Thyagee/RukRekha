@@ -1,0 +1,29 @@
+{
+  "name": "rukrekha",
+  "version": "1.0.0",
+  "description": "**RukRekha** (*රුක් රේඛා*, meaning \"Tree Line\" or \"Tree Record\" in Sinhala) is a decentralized application (dApp) designed to transparently verify tree planting efforts using the Cardano blockchain. It leverages smart contracts, simulated IoT data, and NFT technology to ensure every planted tree leaves a permanent digital mark.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC , Apache-2.0",
+  "type": "commonjs",
+  "dependencies": {
+    "@meshsdk/core": "^1.5.18",
+    "blakejs": "^1.2.1",
+    "dotenv": "^16.6.0",
+    "firebase": "^11.9.1",
+    "firebase-admin": "^13.4.0",
+    "multer": "^2.0.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Thyagee/RukRekha.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Thyagee/RukRekha/issues"
+  },
+  "homepage": "https://github.com/Thyagee/RukRekha#readme"
+}
