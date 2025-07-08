@@ -1,0 +1,15 @@
+{
+  "721": {
+    "policy_id_placeholder": {
+      "TreeNFT_{tree_id}": {
+        "name": "Tree #{tree_id}",
+        "image": "{image_url}",
+        "description": "{tree_type} tree planted in {location}",
+        "planting_date": "{planting_date}",
+        "gps": "{gps_coordinates}",
+        "donor": "{donor_name}",
+        "qr_code_link": "{qr_code_link}"
+      }
+    }
+  }
+}

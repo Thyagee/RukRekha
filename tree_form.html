@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Tree Photo Upload</title>
+</head>
+
+<body>
+
+    <h1>🌳 Upload Tree Photo</h1>
+
+    <input type="file" id="fileInput">
+    <button id="uploadBtn">Upload</button>
+
+    <p id="status">Status: Waiting...</p>
+    <p>🌍 File URL: <a id="fileURL" href="#" target="_blank"></a></p>
+
+    <!-- ✅ Firebase App + Storage with ESM -->
+    <script type="module">
+        // ✅ Import Firebase modules via URL
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
+
+        // ✅ Your Firebase Config
+        const firebaseConfig = {
+            apiKey: "AIzaSyBKJdtJ7Zs57af0cyv-cF6thnBS_4wng3o",
+            authDomain: "rukrekha-45ad3.firebaseapp.com",
+            projectId: "rukrekha-45ad3",
+            storageBucket: "rukrekha-45ad3.firebasestorage.app",
+            messagingSenderId: "573455531940",
+            appId: "1:573455531940:web:0a4d02e98dc08b4f664b31"
+        };
+
+        // ✅ Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const storage = getStorage(app);
+
+        // ✅ Upload function
+        async function uploadFile() {
+            const file = document.getElementById('fileInput').files[0];
+            const status = document.getElementById('status');
+            const fileURL = document.getElementById('fileURL');
+
+            if (!file) {
+                status.innerText = "❌ No file selected.";
+                return;
+            }
+
+            const storageRef = ref(storage, 'tree_photos/' + file.name);
+            status.innerText = "⏳ Uploading...";
+
+            try {
+                const snapshot = await uploadBytes(storageRef, file);
+                const downloadURL = await getDownloadURL(snapshot.ref);
+                status.innerText = "✅ Upload successful!";
+                fileURL.href = downloadURL;
+                fileURL.innerText = downloadURL;
+                console.log('File URL:', downloadURL);
+            } catch (error) {
+                console.error(error);
+                status.innerText = "❌ Upload error: " + error.message;
+                fileURL.href = '#';
+                fileURL.innerText = '';
+            }
+        }
+
+        // ✅ Bind upload button
+        document.getElementById('uploadBtn').addEventListener('click', uploadFile);
+    </script>
+
+</body>
+
+</html>

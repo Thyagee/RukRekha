@@ -1,0 +1,23 @@
+{
+  "721": {
+    "dummyPolicyID1234567890abcdef": {
+      "TreeNFT_12345": {
+        "name": "TreeNFT_12345",
+        "image": "ipfs://QmExampleTreeImageCID",
+        "description": "This NFT represents a Neem tree planted in Colombo as part of the GreenProof project.",
+        "planting_date": "2025-06-24",
+        "location": "6.9271,79.8612",
+        "tree_type": "Neem",
+        "donor": "John Doe",
+        "qr_code_link": "https://www.google.com/search?q=sl+vs+ban&oq=&gs_lcrp=EgZjaHJvbWUqCQgAECMYJxjqAjIJCAAQIxgnGOoCMgkIARAjGCcY6gIyCQgCECMYJxjqAjIJCAMQIxgnGOoCMgkIBBAjGCcY6gIyCQgFECMYJxjqAjIJCAYQIxgnGOoCMgkIBxAjGCcY6gLSAQkxMjExajBqMTWoAgiwAgHxBeQfze2jjlty8QXkH83to45bcg&sourceid=chrome&ie=UTF-8",
+        "files": [
+          {
+            "src": "ipfs://QmExampleTreeImageCID",
+            "mediaType": "image/png",
+            "name": "TreeImage"
+          }
+        ]
+      }
+    }
+  }
+}
