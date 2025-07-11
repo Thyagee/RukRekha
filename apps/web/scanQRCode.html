@@ -1,179 +1,200 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🌳 Growth Tracker – Scan QR Code</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🌳 Growth Tracker – Scan QR Code</title>
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://unpkg.com/html5-qrcode"></script>
-
-<style>
-
-:root {
-  --primary: #2E7D32;
-  --secondary: #1B5E20;
-  --accent: #5d4037;
-  --background: #F1F8E9;
-  --card-bg: #FFFFFF;
-  --alert: #81D4FA;
-  --text: #212121;
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://unpkg.com/html5-qrcode"></script>
 
 
-  /* Dark mode variables */
-  --background-dark: #263238;
-  --card-bg-dark: #37474F;
-  --text-dark: #AED581;
-  --title-light: #5D4037;
-  --title-dark: #AED581;
-    --card-text-dark: #92998b;
-
-}
-
-body {
-        background-color: #F1F8E9;
-        font-family: 'Roboto', sans-serif;
-        color: #212121;
-        overflow-x: hidden;
-        
+  <style>
+    .p {
+      font-family: 'Roboto', sans-serif;
+      color: #212121;
+      font-size: 1.2rem;
     }
+
+    :root {
+      --primary: #2E7D32;
+      --secondary: #1B5E20;
+      --accent: #5d4037;
+      --background: #F1F8E9;
+      --card-bg: #FFFFFF;
+      --alert: #81D4FA;
+      --text: #212121;
+
+
+      /* Dark mode variables */
+      --background-dark: #263238;
+      --card-bg-dark: #37474F;
+      --text-dark: #AED581;
+      --title-light: #5D4037;
+      --title-dark: #AED581;
+      --card-text-dark: #92998b;
+
+    }
+
+    body {
+      background-color: #F1F8E9;
+      font-family: 'Roboto', sans-serif;
+      color: #212121;
+      overflow-x: hidden;
+
+    }
+
     h1 {
-        font-family: 'Montserrat', sans-serif;
-        animation: fadeInDown 1s ease forwards;
+      font-family: 'Montserrat', sans-serif;
+      animation: fadeInDown 1s ease forwards;
     }
-    h2, h3 {
-    font-family: 'Montserrat', sans-serif;
-}
-body.dark-mode {
-    background-color: var(--background-dark);
-    color: var(--text-dark);
-}
-header {
-    /* background-color: #2E7D32;
+
+    h2,
+    h3 {
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    body.dark-mode {
+      background-color: var(--background-dark);
+      color: var(--text-dark);
+    }
+
+    header {
+      /* background-color: #2E7D32;
     padding: 1rem; */
-    background-color: var(--secondary);
-  padding: 20px;
-}
-header h1 {
-    color: #fff;
-    /* margin: 0;
+      background-color: var(--secondary);
+      padding: 20px;
+    }
+
+    header h1 {
+      color: #fff;
+      /* margin: 0;
     font-size: 1.8rem; */
-}
-header nav a {
-    color: #fff;
-    text-decoration: none;
-    margin: 0 15px;
-}
-header nav a:hover {
-    text-decoration: underline;
-}
-header .form-check {
-    margin-left: 20px;
-}
-footer {
-    /* background-color: #263238;
+    }
+
+    header nav a {
+      color: #fff;
+      text-decoration: none;
+      margin: 0 15px;
+    }
+
+    header nav a:hover {
+      text-decoration: underline;
+    }
+
+    header .form-check {
+      margin-left: 20px;
+    }
+
+    footer {
+      /* background-color: #263238;
     color: #AED581;
     text-align: center; */
-    font-size: 0.9rem;
-    /* padding: 1rem; */
-    margin-top: 3rem;
-    line-height: 1.4;
-background-color: var(--secondary);
-  color: white;
-  text-align: center;
-  padding: 15px;
+      font-size: 0.9rem;
+      /* padding: 1rem; */
+      margin-top: 3rem;
+      line-height: 1.4;
+      background-color: var(--secondary);
+      color: white;
+      text-align: center;
+      padding: 15px;
 
-}
+    }
 
-body.dark-mode .badge-area {
-  background-color: #AED581;
-  color: #263238;
-}
+    body.dark-mode .badge-area {
+      background-color: #AED581;
+      color: #263238;
+    }
 
-body.dark-mode .badge-method {
-  background-color: #81D4FA;
-  color: #263238;
-}  
+    body.dark-mode .badge-method {
+      background-color: #81D4FA;
+      color: #263238;
+    }
 
 
-#scanner {
-  width: 100%;
-  max-width: 400px;
-  margin: 20px auto;
-}
-</style>
+    #scanner {
+      width: 100%;
+      max-width: 400px;
+      margin: 20px auto;
+    }
+  </style>
 </head>
+
 <body>
 
-<header class="d-flex justify-content-between align-items-center">
-  <h1>🌿 RukRekha</h1>
-  <nav class="d-flex align-items-center">
-    <a href="index.html">Home</a>
-    <a href="#">About</a>
-    <a href="donateHome.html">Donate a Tree</a>
-    <a href="plantingSubmission.html">Log Tree</a>
-    <a href="#">Verify</a>
-    <a href="donorDashboard.html">Dashboard</a>
-    <a href="login.html">Login</a>
-    <a href="signUp.html">Sign Up</a>
-    <div class="form-check form-switch ms-3">
-      <input class="form-check-input" type="checkbox" id="darkModeToggle">
-      <label class="form-check-label text-white" for="darkModeToggle">🌙</label>
-    </div>
-  </nav>
-  
-</header>
+  <header class="d-flex justify-content-between align-items-center">
+    <h1>🌿 RukRekha</h1>
+    <nav class="d-flex align-items-center">
+      <a href="index.html">Home</a>
+      <a href="#">About</a>
+      <a href="donateHome.html">Donate a Tree</a>
+      <a href="plantingSubmission.html">Log Tree</a>
+      <a href="#">Verify</a>
+      <a href="donorDashboard.html">Dashboard</a>
+      <a href="login.html">Login</a>
+      <a href="signUp.html">Sign Up</a>
+      <div class="form-check form-switch ms-3">
+        <input class="form-check-input" type="checkbox" id="darkModeToggle">
+        <label class="form-check-label text-white" for="darkModeToggle">🌙</label>
+      </div>
+    </nav>
 
-<main class="container mt-5 text-center">
+  </header>
+
+  <main class="container mt-5 text-center">
     <!-- Hero Section -->
-<!-- <section class="text-center py-5 text-white" style="background: linear-gradient(to right, #2E7D32, #66BB6A); border-radius: 10px;" data-aos="fade-down">
+    <!-- <section class="text-center py-5 text-white" style="background: linear-gradient(to right, #2E7D32, #66BB6A); border-radius: 10px;" data-aos="fade-down">
   <h1 class="fw-bold">🌳 Tree Planting Programs</h1>
   <p class="lead">View your onging projects...</p>
 </section> -->
-<section class="text-center py-5 text-white" style="background: linear-gradient(to right, #2E7D32, #66BB6A); border-radius: 10px;" data-aos="zoom-in">
-  <h1 class="fw-bold" data-aos="fade-down" data-aos-delay="200">📷 Scan Plant QR Code</h1>
-  <p class="lead" data-aos="fade-up" data-aos-delay="400"> Growth Tracking...</p>
-</section>
+    <section class="text-center py-5 text-white"
+      style="background: linear-gradient(to right, #2E7D32, #66BB6A); border-radius: 10px;" data-aos="zoom-in">
+      <h1 class="fw-bold" data-aos="fade-down" data-aos-delay="200">📷 Scan Plant QR Code</h1>
+      <p class="lead" data-aos="fade-up" data-aos-delay="400"> Growth Tracking...</p>
+    </section>
 
-<div id="scanner" class="border"></div>
+    <div id="scanner" class="border"></div>
 
-</main>
+  </main>
 
-<!-- Modal: Actions -->
-<div class="modal fade" id="actionsModal" tabindex="-1">
-<div class="modal-dialog">
-<div class="modal-content">
-  <div class="modal-header">
-    <h5 class="modal-title">Plant Actions</h5>
-    <button class="btn-close" data-bs-dismiss="modal"></button>
+  <!-- Modal: Actions -->
+  <div class="modal fade" id="actionsModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Plant Actions</h5>
+          <button class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body text-center">
+          <p><strong>Plant ID:</strong> <span id="plantIdDisplay"></span></p>
+          <button class="btn btn-success mb-2" onclick="openUploadModal()">📸 Upload Weekly Photo</button>
+          <button class="btn btn-primary" onclick="window.location.href='treeDetailPage.html'">🖼️ View Growth
+            Gallery</button>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="modal-body text-center">
-    <p><strong>Plant ID:</strong> <span id="plantIdDisplay"></span></p>
-    <button class="btn btn-success mb-2" onclick="openUploadModal()">📸 Upload Weekly Photo</button>
-    <button class="btn btn-primary" onclick="window.location.href='treeDetailPage.html'">🖼️ View Growth Gallery</button>
-  </div>
-</div>
-</div>
-</div>
 
-<!-- Modal: Upload -->
-<div class="modal fade" id="uploadModal" tabindex="-1">
-<div class="modal-dialog">
-<div class="modal-content">
-  <div class="modal-header">
-    <h5 class="modal-title">Upload Weekly Photo</h5>
-    <button class="btn-close" data-bs-dismiss="modal"></button>
+  <!-- Modal: Upload -->
+  <div class="modal fade" id="uploadModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Upload Weekly Photo</h5>
+          <button class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <input type="file" id="uploadPhoto" accept="image/*" class="form-control mb-2">
+          <p id="uploadPhotoStatus">Status: Waiting...</p>
+          <button class="btn btn-success w-100" id="uploadBtn">Upload</button>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="modal-body">
-    <input type="file" id="uploadPhoto" accept="image/*" class="form-control mb-2">
-    <button class="btn btn-success w-100" onclick="uploadPhoto()">Upload</button>
-  </div>
-</div>
-</div>
-</div>
 
-<!-- Modal: Gallery -->
-<!-- <div class="modal fade" id="galleryModal" tabindex="-1">
+  <!-- Modal: Gallery -->
+  <!-- <div class="modal fade" id="galleryModal" tabindex="-1">
 <div class="modal-dialog modal-lg">
 <div class="modal-content">
   <div class="modal-header">
@@ -182,114 +203,195 @@ body.dark-mode .badge-method {
   </div>
   <div class="modal-body">
     <div id="galleryContent" class="row g-2"> -->
-      <!-- Photos dynamically inserted -->
-    <!-- </div>
+  <!-- Photos dynamically inserted -->
+  <!-- </div>
   </div>
 </div>
 </div>
 </div> -->
 
-<footer>
-  <p>Quick Links: Home | Adopt | Log Tree | Verify | Dashboard</p>
-  <p>Contact: info@rukrekha.org | Twitter | Discord</p>
-  <p>Terms of Service | Privacy Policy</p>
-  <p>© 2025 RukRekha. All rights reserved.</p>
-</footer>
+  <footer>
+    <p>Quick Links: Home | Adopt | Log Tree | Verify | Dashboard</p>
+    <p>Contact: info@rukrekha.org | Twitter | Discord</p>
+    <p>Terms of Service | Privacy Policy</p>
+    <p>© 2025 RukRekha. All rights reserved.</p>
+  </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getStorage, ref, uploadBytes, getDownloadURL, listAll } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
 
-   // Dark Mode Toggle
-document.getElementById('darkModeToggle').addEventListener('change', (e) => {
-  document.body.classList.toggle('dark-mode', e.target.checked);
-});
+    // Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyBKJdtJ7Zs57af0cyv-cF6thnBS_4wng3o",
+      authDomain: "rukrekha-45ad3.firebaseapp.com",
+      projectId: "rukrekha-45ad3",
+      storageBucket: "rukrekha-45ad3.appspot.com",
+      messagingSenderId: "573455531940",
+      appId: "1:573455531940:web:0a4d02e98dc08b4f664b31"
+    };
 
-document.getElementById('darkModeToggle').addEventListener('change', (e) => {
-  document.body.classList.toggle('dark-mode', e.target.checked);
+    const app = initializeApp(firebaseConfig);
+    const storage = getStorage(app);
 
-  document.querySelectorAll('.card-title').forEach(title => {
-    if (e.target.checked) {
-      title.style.color = 'var(--title-dark)';
-    } else {
-      title.style.color = 'var(--title-light)';
-    }
-  });
-});
+    let scannedPlantId = null;
+    let safePlantId = null;
 
-let scannedPlantId = null;
 
-// Start QR scanner
-const html5QrCode = new Html5Qrcode("scanner");
-html5QrCode.start(
-  { facingMode: "environment" },
-  { fps: 10, qrbox: 250 },
-  qrCodeMessage => {
-    scannedPlantId = qrCodeMessage;
-    html5QrCode.stop();
-    document.getElementById("plantIdDisplay").textContent = scannedPlantId;
-    const actionsModal = new bootstrap.Modal(document.getElementById("actionsModal"));
-    actionsModal.show();
-  },
-  errorMessage => { /* ignore errors */ }
-);
+    document.addEventListener('DOMContentLoaded', () => {
+      const html5QrCode = new Html5Qrcode("scanner");
+      html5QrCode.start(
+        { facingMode: "environment" },
+        { fps: 10, qrbox: 250 },
+        qrCodeMessage => {
+          scannedPlantId = qrCodeMessage;
 
-// Actions
-function openUploadModal() {
-  bootstrap.Modal.getInstance(document.getElementById("actionsModal")).hide();
-  new bootstrap.Modal(document.getElementById("uploadModal")).show();
-}
+          try {
+            // Extract only unique ID from QR URL
+            const urlObj = new URL(scannedPlantId);
+            const plantIdRaw = urlObj.pathname.replace(/\//g, ""); // e.g., bg94Y6
+            safePlantId = encodeURIComponent(plantIdRaw);
 
-function openGalleryModal() {
-  bootstrap.Modal.getInstance(document.getElementById("actionsModal")).hide();
-  const galleryModal = new bootstrap.Modal(document.getElementById("galleryModal"));
-  loadGallery(scannedPlantId);
-  galleryModal.show();
-}
+            document.getElementById("plantIdDisplay").textContent = plantIdRaw;
 
-function uploadPhoto() {
-  const file = document.getElementById("uploadPhoto").files[0];
-  if (!file) {
-    alert("❌ Please select a photo.");
-    return;
-  }
-  const formData = new FormData();
-  formData.append("plantId", scannedPlantId);
-  formData.append("photo", file);
+            html5QrCode.stop();
+            new bootstrap.Modal(document.getElementById("actionsModal")).show();
 
-  fetch("/api/upload-growth-photo", {
-    method: "POST",
-    body: formData
-  }).then(res => res.json())
-    .then(data => {
-      if (data.success) {
-        alert("✅ Photo uploaded.");
+          } catch (err) {
+            console.error("Invalid QR code:", err);
+            alert("❌ Invalid QR code format.");
+          }
+        },
+        errorMessage => { }
+      );
+
+      document.getElementById("uploadBtn").addEventListener("click", uploadPhoto);
+    });
+    
+    async function uploadPhoto() {
+      const file = document.getElementById("uploadPhoto").files[0];
+      const status = document.getElementById("uploadPhotoStatus");
+      if (!file) {
+        status.textContent = "❌ Please select a photo.";
+        return;
+      }
+
+      if (!scannedPlantId) {
+        status.textContent = "❌ No plant scanned.";
+        return;
+      }
+
+      const today = new Date().toISOString().split('T')[0];
+      const safePlantId = encodeURIComponent(scannedPlantId);
+      const folderRef = ref(storage, `growth_photos/${safePlantId}`);
+      const fileRef = ref(storage, `growth_photos/${safePlantId}/${today}.jpg`);
+
+
+      status.textContent = "⏳ Checking for existing upload…";
+
+      try {
+        const list = await listAll(folderRef);
+        const exists = list.items.some(item => item.name === `${today}.jpg`);
+
+        if (exists) {
+          status.textContent = "⚠️ You already uploaded a photo today.";
+          return;
+        }
+
+        status.textContent = "⏳ Uploading…";
+
+        await uploadBytes(fileRef, file);
+        const downloadURL = await getDownloadURL(fileRef);
+
+        status.textContent = `✅ Upload successful!`;
+        console.log("Photo URL:", downloadURL);
+
         bootstrap.Modal.getInstance(document.getElementById("uploadModal")).hide();
-      } else {
-        alert("❌ Upload failed.");
+        alert("✅ Photo uploaded.");
+      } catch (err) {
+        console.error(err);
+        status.textContent = "❌ Upload failed: " + err.message;
       }
-    });
-}
+    }
 
-function loadGallery(plantId) {
-  const gallery = document.getElementById("galleryContent");
-  gallery.innerHTML = "Loading...";
-  fetch(`/api/get-growth-gallery?plantId=${plantId}`)
-    .then(res => res.json())
-    .then(data => {
-      gallery.innerHTML = "";
-      if (data.photos && data.photos.length > 0) {
-        data.photos.forEach(url => {
-          const col = document.createElement("div");
-          col.className = "col-md-3";
-          col.innerHTML = `<img src="${url}" class="img-fluid rounded">`;
-          gallery.appendChild(col);
-        });
-      } else {
-        gallery.innerHTML = "<p>No photos yet.</p>";
-      }
+    window.openUploadModal = () => {
+      document.getElementById("uploadPhotoStatus").textContent = "";
+      new bootstrap.Modal(document.getElementById("uploadModal")).show();
+    };
+  </script>
+
+  <script>
+
+    // Dark Mode Toggle
+    document.getElementById('darkModeToggle').addEventListener('change', (e) => {
+      document.body.classList.toggle('dark-mode', e.target.checked);
     });
-}
-</script>
+
+    document.getElementById('darkModeToggle').addEventListener('change', (e) => {
+      document.body.classList.toggle('dark-mode', e.target.checked);
+
+      document.querySelectorAll('.card-title').forEach(title => {
+        if (e.target.checked) {
+          title.style.color = 'var(--title-dark)';
+        } else {
+          title.style.color = 'var(--title-light)';
+        }
+      });
+    });
+
+    //let scannedPlantId = null;
+
+    // Start QR scanner
+    // const html5QrCode = new Html5Qrcode("scanner");
+    // html5QrCode.start(
+    //   { facingMode: "environment" },
+    //   { fps: 10, qrbox: 250 },
+    //   qrCodeMessage => {
+    //     scannedPlantId = qrCodeMessage;
+    //     html5QrCode.stop();
+    //     document.getElementById("plantIdDisplay").textContent = scannedPlantId;
+    //     const actionsModal = new bootstrap.Modal(document.getElementById("actionsModal"));
+    //     actionsModal.show();
+    //   },
+    //   errorMessage => { /* ignore errors */ }
+    // );
+
+    // Actions
+    function openUploadModal() {
+      bootstrap.Modal.getInstance(document.getElementById("actionsModal")).hide();
+      new bootstrap.Modal(document.getElementById("uploadModal")).show();
+    }
+
+    function openGalleryModal() {
+      bootstrap.Modal.getInstance(document.getElementById("actionsModal")).hide();
+      const galleryModal = new bootstrap.Modal(document.getElementById("galleryModal"));
+      loadGallery(scannedPlantId);
+      galleryModal.show();
+    }
+
+
+    function loadGallery(plantId) {
+      const gallery = document.getElementById("galleryContent");
+      gallery.innerHTML = "Loading...";
+      fetch(`/api/get-growth-gallery?plantId=${plantId}`)
+        .then(res => res.json())
+        .then(data => {
+          gallery.innerHTML = "";
+          if (data.photos && data.photos.length > 0) {
+            data.photos.forEach(url => {
+              const col = document.createElement("div");
+              col.className = "col-md-3";
+              col.innerHTML = `<img src="${url}" class="img-fluid rounded">`;
+              gallery.appendChild(col);
+            });
+          } else {
+            gallery.innerHTML = "<p>No photos yet.</p>";
+          }
+        });
+    }
+  </script>
 
 </body>
+
 </html>
