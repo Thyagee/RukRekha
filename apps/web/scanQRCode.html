@@ -124,7 +124,11 @@
 <body>
 
   <header class="d-flex justify-content-between align-items-center">
-    <h1>🌿 RukRekha</h1>
+    <div class="logo" style="display:flex; align-items:center; gap:0.1rem;">
+      <a href="index.html" style="display:flex; align-items:center; gap:0.1rem;">
+        <img src="images/RukRekhaNew2 Logo.png" alt="RukRekha Logo" style="height:70px;">
+      </a>
+    </div>
     <nav class="d-flex align-items-center">
       <a href="index.html">Home</a>
       <a href="#">About</a>
@@ -235,9 +239,10 @@
     const app = initializeApp(firebaseConfig);
     const storage = getStorage(app);
 
+    const allowedQRCode = "https://qrco.de/bg94Y6";
+
     let scannedPlantId = null;
     let safePlantId = null;
-
 
     document.addEventListener('DOMContentLoaded', () => {
       const html5QrCode = new Html5Qrcode("scanner");
@@ -245,10 +250,15 @@
         { facingMode: "environment" },
         { fps: 10, qrbox: 250 },
         qrCodeMessage => {
-          scannedPlantId = qrCodeMessage;
+          scannedPlantId = qrCodeMessage.trim();
+
+          // Validate QR code
+          if (scannedPlantId !== allowedQRCode) {
+            alert("❌ Invalid QR code");
+            return;
+          }
 
           try {
-            // Extract only unique ID from QR URL
             const urlObj = new URL(scannedPlantId);
             const plantIdRaw = urlObj.pathname.replace(/\//g, ""); // e.g., bg94Y6
             safePlantId = encodeURIComponent(plantIdRaw);
@@ -259,7 +269,7 @@
             new bootstrap.Modal(document.getElementById("actionsModal")).show();
 
           } catch (err) {
-            console.error("Invalid QR code:", err);
+            console.error("Invalid QR code format:", err);
             alert("❌ Invalid QR code format.");
           }
         },
@@ -268,7 +278,7 @@
 
       document.getElementById("uploadBtn").addEventListener("click", uploadPhoto);
     });
-    
+
     async function uploadPhoto() {
       const file = document.getElementById("uploadPhoto").files[0];
       const status = document.getElementById("uploadPhotoStatus");
@@ -277,16 +287,14 @@
         return;
       }
 
-      if (!scannedPlantId) {
-        status.textContent = "❌ No plant scanned.";
+      if (!safePlantId) {
+        status.textContent = "❌ No valid plant scanned.";
         return;
       }
 
       const today = new Date().toISOString().split('T')[0];
-      const safePlantId = encodeURIComponent(scannedPlantId);
       const folderRef = ref(storage, `growth_photos/${safePlantId}`);
       const fileRef = ref(storage, `growth_photos/${safePlantId}/${today}.jpg`);
-
 
       status.textContent = "⏳ Checking for existing upload…";
 
@@ -320,6 +328,7 @@
       new bootstrap.Modal(document.getElementById("uploadModal")).show();
     };
   </script>
+
 
   <script>
 

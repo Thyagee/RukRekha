@@ -1,356 +1,414 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tree Details - RukRekha</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://unpkg.com/leaflet/dist/leaflet.css" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Fira+Code&family=Montserrat&family=Roboto&display=swap" rel="stylesheet">
-<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
-<style>
-:root {
-  --primary: #2E7D32;
-  --secondary: #1B5E20;
-  --accent: #5D4037;
-  --background: #F1F8E9;
-  --card-bg: #FFFFFF;
-  --alert: #81D4FA;
-  --success: #66BB6A;
-  --text: #212121;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tree Details - RukRekha</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://unpkg.com/leaflet/dist/leaflet.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code&family=Montserrat&family=Roboto&display=swap"
+    rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #2E7D32;
+      --secondary: #1B5E20;
+      --accent: #5D4037;
+      --background: #F1F8E9;
+      --card-bg: #FFFFFF;
+      --alert: #81D4FA;
+      --success: #66BB6A;
+      --text: #212121;
 
-  /* Dark mode variables */
-  --background-dark: #263238;
-  --card-bg-dark: #37474F;
-  --text-dark: #f2f5ee;
-  --title-light: #5D4037;
-  --title-dark: #AED581;
-    --card-text-dark: #92998b;
+      /* Dark mode variables */
+      --background-dark: #263238;
+      --card-bg-dark: #37474F;
+      --text-dark: #f2f5ee;
+      --title-light: #5D4037;
+      --title-dark: #AED581;
+      --card-text-dark: #92998b;
 
-}
-body {
-  background-color: var(--background);
-  color: var(--text);
-  font-family: 'Roboto', sans-serif;
-}
-h1 {
+    }
 
-        font-family: 'Montserrat', sans-serif;
-  transform: translateY(-20px);
-        animation: fadeInDown 1s ease forwards;
-}
-h2, h3, h4 {
-  font-family: 'Montserrat', sans-serif;
-  color: var(--secondary);
-}
-body.dark-mode {
-    background-color: var(--background-dark);
-    color: var(--text-dark);
-}
-header {
-  background-color: var(--secondary);
-  padding: 20px;
-}
-header h1 {
-  color: white;
-}
+    body {
+      background-color: var(--background);
+      color: var(--text);
+      font-family: 'Roboto', sans-serif;
+    }
 
-header nav a {
-    color: #fff;
-    text-decoration: none;
-    margin: 0 15px;
-}
-header nav a:hover {
-    text-decoration: underline;
-}
-header .form-check {
-    margin-left: 20px;
-}
+    h1 {
 
-footer {
-    /* background-color: #263238;
+      font-family: 'Montserrat', sans-serif;
+      transform: translateY(-20px);
+      animation: fadeInDown 1s ease forwards;
+    }
+
+    h2,
+    h3,
+    h4 {
+      font-family: 'Montserrat', sans-serif;
+      color: var(--secondary);
+    }
+
+    body.dark-mode {
+      background-color: var(--background-dark);
+      color: var(--text-dark);
+    }
+
+    header {
+      background-color: var(--secondary);
+      padding: 20px;
+    }
+
+    header h1 {
+      color: white;
+    }
+
+    header nav a {
+      color: #fff;
+      text-decoration: none;
+      margin: 0 15px;
+    }
+
+    header nav a:hover {
+      text-decoration: underline;
+    }
+
+    header .form-check {
+      margin-left: 20px;
+    }
+
+    footer {
+      /* background-color: #263238;
     color: #AED581;
     text-align: center; */
-    font-size: 0.9rem;
-    /* padding: 1rem; */
-    margin-top: 3rem;
-    line-height: 1.4;
-background-color: var(--secondary);
-  color: white;
-  text-align: center;
-  padding: 15px;
+      font-size: 0.9rem;
+      /* padding: 1rem; */
+      margin-top: 3rem;
+      line-height: 1.4;
+      background-color: var(--secondary);
+      color: white;
+      text-align: center;
+      padding: 15px;
 
-}
-.card {
-  background-color: var(--card-bg);
-  border-radius: 10px;
-  margin-bottom: 20px;
-}
-.card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-  transition: all 0.3s ease;
-}
-.btn:hover {
-  transform: scale(1.05);
-  transition: transform 0.2s ease;
-}
+    }
 
-#map { height: 300px; border-radius: 10px; }
-.photo-thumb {
-  width: 100px;
-  margin-right: 10px;
-  cursor: pointer;
-}
+    .card {
+      background-color: var(--card-bg);
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
 
-body.dark-mode .card {
-    background-color: var(--card-bg-dark);
-    color: var(--card-text-dark);
-}
-body.dark-mode .card-title {
-  color: var(--title-dark);
-}
-body.dark-mode .badge-area {
-  background-color: #AED581;
-  color: #263238;
-}
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
 
-body.dark-mode .badge-method {
-  background-color: #81D4FA;
-  color: #263238;
-}
+    .btn:hover {
+      transform: scale(1.05);
+      transition: transform 0.2s ease;
+    }
 
-@keyframes slideDown {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+    #map {
+      height: 300px;
+      border-radius: 10px;
+    }
 
-.btn-outline-primary:hover,
-.btn-outline-info:hover,
-.btn-outline-success:hover {
-  animation: pulse 0.8s infinite alternate;
-}
+    .photo-thumb {
+      width: 100px;
+      margin-right: 10px;
+      cursor: pointer;
+    }
 
-@keyframes pulse {
-  from { transform: scale(1); }
-  to   { transform: scale(1.05); }
-}
+    body.dark-mode .card {
+      background-color: var(--card-bg-dark);
+      color: var(--card-text-dark);
+    }
 
+    body.dark-mode .card-title {
+      color: var(--title-dark);
+    }
 
-</style>
+    body.dark-mode .badge-area {
+      background-color: #AED581;
+      color: #263238;
+    }
+
+    body.dark-mode .badge-method {
+      background-color: #81D4FA;
+      color: #263238;
+    }
+
+    @keyframes slideDown {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .btn-outline-primary:hover,
+    .btn-outline-info:hover,
+    .btn-outline-success:hover {
+      animation: pulse 0.8s infinite alternate;
+    }
+
+    @keyframes pulse {
+      from {
+        transform: scale(1);
+      }
+
+      to {
+        transform: scale(1.05);
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<!-- <header class="text-center">
+  <!-- <header class="text-center">
   <h1>🌳 Public Tree Details</h1>
 </header> -->
 
-<header class="d-flex justify-content-between align-items-center">
-  <h1>🌿 RukRekha</h1>
-  <nav class="d-flex align-items-center">
-    <a href="index.html">Home</a>
-    <a href="#">About</a>
-    <a href="donateHome.html">Donate a Tree</a>
-    <a href="plantingSubmission.html">Log Tree</a>
-    <a href="#">Verify</a>
-    <a href="donorDashboard.html">Dashboard</a>
-    <a href="login.html">Login</a>
-    <a href="signUp.html">Sign Up</a>
-    <div class="form-check form-switch ms-3">
-      <input class="form-check-input" type="checkbox" id="darkModeToggle">
-      <label class="form-check-label text-white" for="darkModeToggle">🌙</label>
+  <header class="d-flex justify-content-between align-items-center">
+    <div class="logo" style="display:flex; align-items:center; gap:0.1rem;">
+      <a href="index.html" style="display:flex; align-items:center; gap:0.1rem;">
+        <img src="images/RukRekhaNew2 Logo.png" alt="RukRekha Logo" style="height:70px;">
+      </a>
     </div>
-  </nav>
-  
-</header>
-
-<main class="container mt-4">
-
-
-    <section class="text-center py-5 text-white" style="background: linear-gradient(to right, #2E7D32, #66BB6A); border-radius: 10px;" data-aos="zoom-in">
-  <h1 class="fw-bold" data-aos="fade-down" data-aos-delay="200">🌳 Tree Details</h1>
-  <p class="lead" data-aos="fade-up" data-aos-delay="400">View Tree growth...</p>
-</section>
-
-
-<!-- Tree Info Panel -->
-<div class="card p-3" data-aos="fade-up">
-  <h3>Tree ID: abc123</h3>
-  <p><strong>Planter Organization:</strong> GreenAid Org</p>
-  <p><strong>Tree Species:</strong> Mango</p>
-  <p><strong>Planting Date:</strong> 2025-05-01</p>
-  <p><strong>GPS Location:</strong> 6.9271, 79.8612</p>
-  <p><strong>NFT Owner:</strong> addr1q...xyz</p>
-</div>
-
-<!-- Map -->
-<div class="card p-3 mt-3" data-aos="zoom-in">
-  <h4>📍 Location Map</h4>
-  <div id="map"></div>
-</div>
-
-<!-- Photo Timeline -->
-<div class="card p-3 mt-3" data-aos="zoom-in" >
-  <h4>🌱 Photo Timeline</h4>
-  <div class="row">
-    <div class="col-md-3">
-      <img src="images/mango 1.jpg" class="img-fluid rounded mb-2" data-aos="flip-right" data-aos-delay="100" alt="Growth stage 1">
-      <p>Date: 2025-05-01<br>GPS: 6.9271, 79.8612</p>
-    </div>
-    <div class="col-md-3">
-      <img src="images/mango 1.jpg" class="img-fluid rounded mb-2" data-aos="fade-right" data-aos-delay="200" alt="Growth stage 1">
-      <p>Date: 2025-05-08<br>GPS: 6.9271, 79.8612</p>
-    </div>
-    <div class="col-md-3">
-      <img src="images/mango 1.jpg" class="img-fluid rounded mb-2" data-aos="flip-right" data-aos-delay="300" alt="Growth stage 1">
-      <p>Date: 2025-05-15<br>GPS: 6.9271, 79.8612</p>
-    </div>
-    <div class="col-md-3">
-      <img src="images/mango 1.jpg" class="img-fluid rounded mb-2" data-aos="flip-right" data-aos-delay="400" alt="Growth stage 1">
-      <p>Date: 2025-05-22<br>GPS: 6.9271, 79.8612</p>
-    </div>
-    <div class="col-md-3">
-      <img src="images/mango 2.webp" class="img-fluid rounded mb-2" data-aos="flip-right" data-aos-delay="100" alt="Growth stage 2">
-      <p>Date: 2025-06-01<br>GPS: 6.9271, 79.8612</p>
-    </div>
-    <div class="col-md-3">
-      <img src="images/mango 2.webp" class="img-fluid rounded mb-2" data-aos="flip-right" data-aos-delay="200" alt="Growth stage 2">
-      <p>Date: 2025-06-07<br>GPS: 6.9271, 79.8612</p>
-    </div>
-    <div class="col-md-3">
-      <img src="images/mango 2.webp" class="img-fluid rounded mb-2" data-aos="flip-right" data-aos-delay="300" alt="Growth stage 2">
-      <p>Date: 2025-06-16<br>GPS: 6.9271, 79.8612</p>
-    </div>
-    <div class="col-md-3">
-      <img src="images/mango 2.webp" class="img-fluid rounded mb-2" data-aos="flip-right" data-aos-delay="400" alt="Growth stage 2">
-      <p>Date: 2025-06-24<br>GPS: 6.9271, 79.8612</p>
-    </div>
-    <div class="col-md-3">
-      <img src="images/mango 3.jpeg" class="img-fluid rounded mb-2" data-aos="flip-right" data-aos-delay="100" alt="Growth stage 3">
-      <p>Date: 2025-07-01<br>GPS: 6.9271, 79.8612</p>
-    </div>
-    <div class="col-md-3">
-      <img src="images/mango 3.jpeg" class="img-fluid rounded mb-2" data-aos="flip-right" data-aos-delay="200" alt="Growth stage 3">
-      <p>Date: 2025-07-07<br>GPS: 6.9271, 79.8612</p>
-    </div>
-  </div>
-</div>
-
-<div class="card p-3 mt-3" data-aos="zoom-in">
-  <h4>🌏 Environmental Impact</h4>
-  <ul>
-    <li><strong>CO₂ Sequestered:</strong> 20 kg/year</li>
-    <li><strong>Biodiversity Supported:</strong> 5 species</li>
-    <li><strong>Canopy Contribution:</strong> 2 m²</li>
-    <li><strong>Tree Age:</strong> 2 months</li>
-  </ul>
-</div>
-
-
-<!-- Blockchain Verification -->
-<div class="card p-3 mt-3" data-aos="zoom-in">
-  <h4>🔗 Blockchain Verification</h4>
-  <p>TX Hash: abc123...xyz789</p>
-  <a href="https://explorer.cardano.org/en/transaction?id=abc123" class="btn btn-success">View on Cardano Explorer</a>
-</div>
-
-
-<div class="card p-3 mt-3" data-aos="zoom-in">
-  <h4>📢 Share This Tree</h4>
-  <p>Help us spread the word and inspire more people to plant trees!</p>
-  <div>
-    <a href="https://www.facebook.com/sharer/sharer.php?u=YOUR_TREE_URL" class="btn btn-outline-primary btn-sm me-1">Share on Facebook</a>
-    <a href="https://twitter.com/intent/tweet?url=YOUR_TREE_URL&text=Check+out+my+planted+tree+on+RukRekha!" class="btn btn-outline-info btn-sm me-1">Tweet</a>
-    <a href="https://api.whatsapp.com/send?text=Check+out+my+planted+tree+on+RukRekha:+YOUR_TREE_URL" class="btn btn-outline-success btn-sm">Share on WhatsApp</a>
-  </div>
-</div>
-
-
-
-<!-- Feedback Button -->
-<div class="text-center my-4">
-  <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#feedbackModal">🚩 Report an Issue / Comment</button>
-</div>
-
-</main>
-
-<!-- Feedback Modal -->
-<div class="modal fade" id="feedbackModal" tabindex="-1">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Community Feedback</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+    <nav class="d-flex align-items-center">
+      <a href="index.html">Home</a>
+      <a href="#">About</a>
+      <a href="donateHome.html">Donate a Tree</a>
+      <a href="plantingSubmission.html">Log Tree</a>
+      <a href="#">Verify</a>
+      <a href="donorDashboard.html">Dashboard</a>
+      <a href="login.html">Login</a>
+      <a href="signUp.html">Sign Up</a>
+      <div class="form-check form-switch ms-3">
+        <input class="form-check-input" type="checkbox" id="darkModeToggle">
+        <label class="form-check-label text-white" for="darkModeToggle">🌙</label>
       </div>
-      <div class="modal-body">
-        <form>
-          <label for="feedback" class="form-label">Your feedback (will be reviewed before publishing):</label>
-          <textarea class="form-control" id="feedback" rows="3"></textarea>
-          <label for="issueType" class="form-label mt-2">Flag as:</label>
-          <select class="form-select" id="issueType">
-            <option>Tree missing</option>
-            <option>Tree damaged</option>
-            <option>Needs follow-up</option>
-          </select>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button id="submitFeedbackBtn" class="btn btn-success">Submit Feedback</button>
+    </nav>
 
+  </header>
+
+  <main class="container mt-4">
+
+
+    <section class="text-center py-5 text-white"
+      style="background: linear-gradient(to right, #2E7D32, #66BB6A); border-radius: 10px;" data-aos="zoom-in">
+      <h1 class="fw-bold" data-aos="fade-down" data-aos-delay="200">🌳 Tree Details</h1>
+      <p class="lead" data-aos="fade-up" data-aos-delay="400">View Tree growth...</p>
+    </section>
+
+
+    <!-- Tree Info Panel -->
+    <div class="card p-3" data-aos="fade-up">
+      <h3>Tree ID: abc123</h3>
+      <p><strong>Planter Organization:</strong> GreenAid Org</p>
+      <p><strong>Tree Species:</strong> Mango</p>
+      <p><strong>Planting Date:</strong> 2025-05-01</p>
+      <p><strong>GPS Location:</strong> 6.9271, 79.8612</p>
+      <p><strong>NFT Owner:</strong> addr1q...xyz</p>
+    </div>
+
+    <!-- Map -->
+    <div class="card p-3 mt-3" data-aos="zoom-in">
+      <h4>📍 Location Map</h4>
+      <div id="map"></div>
+    </div>
+
+    <!-- Photo Timeline -->
+    <div class="card p-3 mt-3" data-aos="zoom-in">
+      <h4>🌱 Photo Timeline</h4>
+      <div class="row">
+        <div class="col-md-3">
+          <img src="images/mango 1.jpg" class="img-fluid rounded mb-2" data-aos="flip-right" data-aos-delay="100"
+            alt="Growth stage 1">
+          <p>Date: 2025-05-01<br>GPS: 6.9271, 79.8612</p>
+        </div>
+        <div class="col-md-3">
+          <img src="images/mango 1.jpg" class="img-fluid rounded mb-2" data-aos="fade-right" data-aos-delay="200"
+            alt="Growth stage 1">
+          <p>Date: 2025-05-08<br>GPS: 6.9271, 79.8612</p>
+        </div>
+        <div class="col-md-3">
+          <img src="images/mango 1.jpg" class="img-fluid rounded mb-2" data-aos="flip-right" data-aos-delay="300"
+            alt="Growth stage 1">
+          <p>Date: 2025-05-15<br>GPS: 6.9271, 79.8612</p>
+        </div>
+        <div class="col-md-3">
+          <img src="images/mango 1.jpg" class="img-fluid rounded mb-2" data-aos="flip-right" data-aos-delay="400"
+            alt="Growth stage 1">
+          <p>Date: 2025-05-22<br>GPS: 6.9271, 79.8612</p>
+        </div>
+        <div class="col-md-3">
+          <img src="images/mango 2.webp" class="img-fluid rounded mb-2" data-aos="flip-right" data-aos-delay="100"
+            alt="Growth stage 2">
+          <p>Date: 2025-06-01<br>GPS: 6.9271, 79.8612</p>
+        </div>
+        <div class="col-md-3">
+          <img src="images/mango 2.webp" class="img-fluid rounded mb-2" data-aos="flip-right" data-aos-delay="200"
+            alt="Growth stage 2">
+          <p>Date: 2025-06-07<br>GPS: 6.9271, 79.8612</p>
+        </div>
+        <div class="col-md-3">
+          <img src="images/mango 2.webp" class="img-fluid rounded mb-2" data-aos="flip-right" data-aos-delay="300"
+            alt="Growth stage 2">
+          <p>Date: 2025-06-16<br>GPS: 6.9271, 79.8612</p>
+        </div>
+        <div class="col-md-3">
+          <img src="images/mango 2.webp" class="img-fluid rounded mb-2" data-aos="flip-right" data-aos-delay="400"
+            alt="Growth stage 2">
+          <p>Date: 2025-06-24<br>GPS: 6.9271, 79.8612</p>
+        </div>
+        <div class="col-md-3">
+          <img src="images/mango 3.jpeg" class="img-fluid rounded mb-2" data-aos="flip-right" data-aos-delay="100"
+            alt="Growth stage 3">
+          <p>Date: 2025-07-01<br>GPS: 6.9271, 79.8612</p>
+        </div>
+        <div class="col-md-3">
+          <img src="images/mango 3.jpeg" class="img-fluid rounded mb-2" data-aos="flip-right" data-aos-delay="200"
+            alt="Growth stage 3">
+          <p>Date: 2025-07-07<br>GPS: 6.9271, 79.8612</p>
+        </div>
       </div>
     </div>
+
+    <div class="card p-3 mt-3" data-aos="zoom-in">
+      <h4>🌏 Environmental Impact</h4>
+      <ul>
+        <li><strong>CO₂ Sequestered:</strong> 20 kg/year</li>
+        <li><strong>Biodiversity Supported:</strong> 5 species</li>
+        <li><strong>Canopy Contribution:</strong> 2 m²</li>
+        <li><strong>Tree Age:</strong> 2 months</li>
+      </ul>
+    </div>
+
+
+    <div class="card p-3 mt-3" data-aos="zoom-in">
+      <h4>🔗 Blockchain Verification</h4>
+      <p>TX Hash: <span id="tx-hash">Loading...</span></p>
+      <a href="#" id="explorer-link" target="_blank" class="btn btn-success">
+        View on Cardano Explorer
+      </a>
+    </div>
+
+
+    <div class="card p-3 mt-3" data-aos="zoom-in">
+      <h4>📢 Share This Tree</h4>
+      <p>Help us spread the word and inspire more people to plant trees!</p>
+      <div>
+        <a href="https://www.facebook.com/sharer/sharer.php?u=YOUR_TREE_URL"
+          class="btn btn-outline-primary btn-sm me-1">Share on Facebook</a>
+        <a href="https://twitter.com/intent/tweet?url=YOUR_TREE_URL&text=Check+out+my+planted+tree+on+RukRekha!"
+          class="btn btn-outline-info btn-sm me-1">Tweet</a>
+        <a href="https://api.whatsapp.com/send?text=Check+out+my+planted+tree+on+RukRekha:+YOUR_TREE_URL"
+          class="btn btn-outline-success btn-sm">Share on WhatsApp</a>
+      </div>
+    </div>
+
+
+
+    <!-- Feedback Button -->
+    <div class="text-center my-4">
+      <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#feedbackModal">🚩 Report an Issue /
+        Comment</button>
+    </div>
+
+  </main>
+
+  <!-- Feedback Modal -->
+  <div class="modal fade" id="feedbackModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Community Feedback</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <label for="feedback" class="form-label">Your feedback (will be reviewed before publishing):</label>
+            <textarea class="form-control" id="feedback" rows="3"></textarea>
+            <label for="issueType" class="form-label mt-2">Flag as:</label>
+            <select class="form-select" id="issueType">
+              <option>Tree missing</option>
+              <option>Tree damaged</option>
+              <option>Needs follow-up</option>
+            </select>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button id="submitFeedbackBtn" class="btn btn-success">Submit Feedback</button>
+
+        </div>
+      </div>
+    </div>
   </div>
-</div>
 
-<footer>
-  <p>Quick Links: Home | Adopt | Log Tree | Verify | Dashboard</p>
-  <p>Contact: info@rukrekha.org | Twitter | Discord</p>
-  <p>Terms of Service | Privacy Policy</p>
-  <p>© 2025 RukRekha. All rights reserved.</p>
-</footer>
+  <footer>
+    <p>Quick Links: Home | Adopt | Log Tree | Verify | Dashboard</p>
+    <p>Contact: info@rukrekha.org | Twitter | Discord</p>
+    <p>Terms of Service | Privacy Policy</p>
+    <p>© 2025 RukRekha. All rights reserved.</p>
+  </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-<script>
-  
-AOS.init({ once: true });
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script>
 
-// Dark Mode Toggle
-document.getElementById('darkModeToggle').addEventListener('change', (e) => {
-  document.body.classList.toggle('dark-mode', e.target.checked);
-});
+    // Full transaction hash
+    const txHash = "493ea34c2000b2241c1549660fad3e0f2ffbafb9ccc718a69180368650ffaae5";
 
-document.getElementById('darkModeToggle').addEventListener('change', (e) => {
-  document.body.classList.toggle('dark-mode', e.target.checked);
+    // Display only part of the hash (first 8 + … + last 8)
+    const shortHash = `${txHash.substring(0, 8)}...${txHash.substring(txHash.length - 8)}`;
 
-  document.querySelectorAll('.card-title').forEach(title => {
-    if (e.target.checked) {
-      title.style.color = 'var(--title-dark)';
-    } else {
-      title.style.color = 'var(--title-light)';
-    }
-  });
-});
+    // Update displayed hash
+    document.getElementById("tx-hash").textContent = shortHash;
 
-  const map = L.map('map').setView([6.9271, 79.8612], 15);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; OpenStreetMap contributors'
-  }).addTo(map);
-  L.marker([6.9271, 79.8612]).addTo(map).bindPopup("Mango Tree - Planted 2025-05-01").openPopup();
+    // Link uses full hash
+    const explorerUrl = `https://preprod.cardanoscan.io/transaction/${txHash}`;
+    document.getElementById("explorer-link").href = explorerUrl;
 
-  // Close modal on feedback submit
-  document.querySelector('#submitFeedbackBtn').addEventListener('click', () => {
-    const feedbackModal = bootstrap.Modal.getInstance(document.getElementById('feedbackModal'));
-    feedbackModal.hide();
-    alert("Thank you for your feedback! 🌱");
-  });
+    AOS.init({ once: true });
+
+    // Dark Mode Toggle
+    document.getElementById('darkModeToggle').addEventListener('change', (e) => {
+      document.body.classList.toggle('dark-mode', e.target.checked);
+    });
+
+    document.getElementById('darkModeToggle').addEventListener('change', (e) => {
+      document.body.classList.toggle('dark-mode', e.target.checked);
+
+      document.querySelectorAll('.card-title').forEach(title => {
+        if (e.target.checked) {
+          title.style.color = 'var(--title-dark)';
+        } else {
+          title.style.color = 'var(--title-light)';
+        }
+      });
+    });
+
+    const map = L.map('map').setView([6.9271, 79.8612], 15);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+    L.marker([6.9271, 79.8612]).addTo(map).bindPopup("Mango Tree - Planted 2025-05-01").openPopup();
+
+    // Close modal on feedback submit
+    document.querySelector('#submitFeedbackBtn').addEventListener('click', () => {
+      const feedbackModal = bootstrap.Modal.getInstance(document.getElementById('feedbackModal'));
+      feedbackModal.hide();
+      alert("Thank you for your feedback! 🌱");
+    });
 
 
-</script>
+  </script>
 
 </body>
+
 </html>
