@@ -279,9 +279,10 @@ Contributions are welcome. Since this project is still in development, please op
 
 This project is licensed under the Apache License 2.0. See the [LICENSE](LICENSE) file for details.
 
-## Author
+## Authors
 
 **Thyagee**  
 GitHub: [https://github.com/Thyagee](https://github.com/Thyagee)
-**DhanikaJ**
+
+**DhanikaJ**  
 GitHub: [https://github.com/DhanikaJ](https://github.com/DhanikaJ)
