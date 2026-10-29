@@ -1,15 +1,8 @@
-const { Transaction, BlockfrostProvider, PrivateKeyWallet, AssetMetadata, resolvePlutusScript } = require('@meshsdk/core');
+const { Transaction, BlockfrostProvider, AssetMetadata, resolvePlutusScript } = require('@meshsdk/core');
 require('dotenv').config();
 
 // ✅ Setup Blockfrost Provider
 const blockfrost = new BlockfrostProvider(process.env.BLOCKFROST_API_KEY);
-
-// ✅ Setup Backend Wallet (use PrivateKeyWallet — assumes private key in .env)
-const wallet = new PrivateKeyWallet({
-    networkId: process.env.NETWORK,
-    provider: blockfrost,
-    privateKey: process.env.PRIVATE_KEY,
-});
 
 // ✅ Load Smart Contract JSON (compiled with Aiken)
 const mintScript = resolvePlutusScript('contracts/mint_policy.json');
@@ -28,33 +21,30 @@ const assetMetadata = {
 
 // ✅ Construct Transaction
 async function mintNFT() {
-    const tx = new Transaction({ initiator: wallet });
+    try {
+        const tx = new Transaction({ initiator: blockfrost });
 
-    // ✅ Attach Minting Policy
-    tx.mintAsset(
-        {
-            script: mintScript,
-            assetName: assetName,
-            quantity: '1'
-        },
-        {
-            [assetName]: assetMetadata
-        }
-    );
+        // ✅ Attach Minting Policy
+        tx.mintAsset(
+            {
+                script: mintScript,
+                assetName: assetName,
+                quantity: '1'
+            },
+            {
+                [assetName]: assetMetadata
+            }
+        );
 
-    // ✅ (Optional) Attach Payment (like tree donation fee)
-    // tx.sendLovelace("addr_test1q.....", "5000000"); // Optional ADA payment
+        // ✅ Build Transaction
+        const unsignedTx = await tx.build();
 
-    // ✅ Build Transaction
-    const unsignedTx = await tx.build();
-
-    // ✅ Sign Transaction
-    const signedTx = await wallet.signTx(unsignedTx);
-
-    // ✅ Submit Transaction
-    const txHash = await wallet.submitTx(signedTx);
-
-    console.log("✅ Transaction Hash:", txHash);
+        // At this point: return unsignedTx to frontend to be signed in user wallet
+        // OR: if you truly want to sign server-side, you must use cardano-serialization-lib manually.
+        console.log("✅ Unsigned transaction (hex):", unsignedTx.to_hex());
+    } catch (err) {
+        console.error("❌ Error minting NFT:", err);
+    }
 }
 
 mintNFT();
