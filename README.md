@@ -9,7 +9,7 @@
 [![Cardano](https://img.shields.io/badge/Cardano-0033AD?logo=cardano&logoColor=white)](https://cardano.org/)
 [![Status](https://img.shields.io/badge/Status-Work_done-green)](#project-status)
 
-> **RukRekha** (*රුක් රේඛා*) means “Tree Line” or “Tree Record” in Sinhala.
+> **RukRekha** (*රුක් රේඛා*) means “Tree Records” in Sinhala.
 
 ## Live Demo
 
@@ -90,7 +90,7 @@ Immutable Public Verification Record
 |---|---|
 | Front end | HTML, CSS, Bootstrap, JavaScript |
 | Blockchain | Cardano Testnet |
-| Wallet and transactions | Lucid |
+| Wallet and transactions | Eternl |
 | Blockchain data access | Blockfrost API |
 | Smart contracts | Aiken, Plutus V2 |
 | NFTs | Cardano native assets and Mesh SDK |
